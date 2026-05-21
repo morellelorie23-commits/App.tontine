@@ -19,6 +19,16 @@ namespace tontine.WebAPI.Models
         [Column("id_tontine")]
         public int IdTontine { get; set; }
 
+        [Column("matricule")]
+        public string? Matricule { get; set; }
+
+        [Column("numero_ordre")]
+        public int? NumeroOrdre { get; set; }
+
+        // Nombre de parts souscrites pour cette inscription (1 = plein, 0.5 = demi, 2 = double)
+        [Column("nombre_parts")]
+        public decimal NombreParts { get; set; } = 1m;
+
         [ForeignKey("IdMembre")]
         public MembreModel? Membre { get; set; }
 
