@@ -37,6 +37,21 @@ namespace tontine.WebAPI.Models
         [Column("mode_paiement")]
         public string? ModePaiement { get; set; } = "Cash";
 
+        [Column("mt_attendu")]
+        public decimal MtAttendu { get; set; } = 0;
+
+        [Column("mt_enchere")]
+        public decimal MtEnchere { get; set; } = 0;
+
+        [Column("is_gagnant_enchere")]
+        public bool IsGagnantEnchere { get; set; } = false;
+
+        [Column("id_reunion")]
+        public int? IdReunion { get; set; }
+
+        [Column("penalite_seance")]
+        public decimal PenaliteSeance { get; set; } = 0;
+
         [ForeignKey("IdMembre")]
         public MembreModel? Membre { get; set; }
 

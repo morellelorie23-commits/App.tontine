@@ -30,6 +30,7 @@ namespace tontine.WebAPI.Data
         public DbSet<EcritureComptableModel> EcrituresComptables { get; set; }
         public DbSet<LigneEcritureModel> LignesEcriture { get; set; }
         public DbSet<AmendeModel> Amendes { get; set; }
+        public DbSet<JourneeComptableModel> JourneesComptables { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

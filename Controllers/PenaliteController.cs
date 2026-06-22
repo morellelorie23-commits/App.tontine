@@ -27,6 +27,12 @@ namespace tontine.WebAPI.Controllers
         public async Task<ActionResult<PenaliteModel>> Create(PenaliteModel penalite)
         {
             _context.Penalites.Add(penalite);
+            _context.Journals.Add(new JournalActiviteModel
+            {
+                Action      = "Nouvelle pénalité",
+                Description = $"Pénalité \"{penalite.Libelle}\" créée",
+                Utilisateur = "Système", DateAction = DateTime.Now
+            });
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = penalite.IdPenalite }, penalite);
         }
@@ -36,6 +42,12 @@ namespace tontine.WebAPI.Controllers
         {
             if (id != penalite.IdPenalite) return BadRequest();
             _context.Entry(penalite).State = EntityState.Modified;
+            _context.Journals.Add(new JournalActiviteModel
+            {
+                Action      = "Pénalité modifiée",
+                Description = $"Pénalité \"{penalite.Libelle}\" (id={id}) mise à jour",
+                Utilisateur = "Système", DateAction = DateTime.Now
+            });
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -46,6 +58,12 @@ namespace tontine.WebAPI.Controllers
             var p = await _context.Penalites.FindAsync(id);
             if (p == null) return NotFound();
             _context.Penalites.Remove(p);
+            _context.Journals.Add(new JournalActiviteModel
+            {
+                Action      = "Pénalité supprimée",
+                Description = $"Pénalité \"{p.Libelle}\" (id={id}) supprimée",
+                Utilisateur = "Système", DateAction = DateTime.Now
+            });
             await _context.SaveChangesAsync();
             return NoContent();
         }

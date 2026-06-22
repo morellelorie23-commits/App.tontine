@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using tontine.WebAPI.Data;
 
@@ -11,9 +12,11 @@ using tontine.WebAPI.Data;
 namespace tontine.WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260611152302_AddJourneeComptable")]
+    partial class AddJourneeComptable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,17 +170,9 @@ namespace tontine.WebAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_membre");
 
-                    b.Property<int?>("IdReunion")
-                        .HasColumnType("int")
-                        .HasColumnName("id_reunion");
-
                     b.Property<int>("IdTontine")
                         .HasColumnType("int")
                         .HasColumnName("id_tontine");
-
-                    b.Property<bool>("IsGagnantEnchere")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_gagnant_enchere");
 
                     b.Property<string>("ModePaiement")
                         .HasColumnType("longtext")
@@ -187,21 +182,9 @@ namespace tontine.WebAPI.Migrations
                         .HasColumnType("decimal(65,30)")
                         .HasColumnName("montant");
 
-                    b.Property<decimal>("MtAttendu")
-                        .HasColumnType("decimal(65,30)")
-                        .HasColumnName("mt_attendu");
-
-                    b.Property<decimal>("MtEnchere")
-                        .HasColumnType("decimal(65,30)")
-                        .HasColumnName("mt_enchere");
-
                     b.Property<string>("Notes")
                         .HasColumnType("longtext")
                         .HasColumnName("notes");
-
-                    b.Property<decimal>("PenaliteSeance")
-                        .HasColumnType("decimal(65,30)")
-                        .HasColumnName("penalite_seance");
 
                     b.Property<string>("Statut")
                         .IsRequired()

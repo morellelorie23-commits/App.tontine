@@ -27,6 +27,12 @@ namespace tontine.WebAPI.Controllers
         public async Task<ActionResult<TontineModel>> Create(TontineModel tontine)
         {
             _context.Tontines.Add(tontine);
+            _context.Journals.Add(new JournalActiviteModel
+            {
+                Action      = "Nouvelle tontine",
+                Description = $"Tontine \"{tontine.Libelle}\" créée (montant : {tontine.Montant} FCFA)",
+                Utilisateur = "Système", DateAction = DateTime.Now
+            });
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = tontine.IdTontine }, tontine);
         }
@@ -36,6 +42,12 @@ namespace tontine.WebAPI.Controllers
         {
             if (id != tontine.IdTontine) return BadRequest();
             _context.Entry(tontine).State = EntityState.Modified;
+            _context.Journals.Add(new JournalActiviteModel
+            {
+                Action      = "Tontine modifiée",
+                Description = $"Tontine \"{tontine.Libelle}\" (id={id}) mise à jour",
+                Utilisateur = "Système", DateAction = DateTime.Now
+            });
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -46,6 +58,12 @@ namespace tontine.WebAPI.Controllers
             var t = await _context.Tontines.FindAsync(id);
             if (t == null) return NotFound();
             _context.Tontines.Remove(t);
+            _context.Journals.Add(new JournalActiviteModel
+            {
+                Action      = "Tontine supprimée",
+                Description = $"Tontine \"{t.Libelle}\" (id={id}) supprimée",
+                Utilisateur = "Système", DateAction = DateTime.Now
+            });
             await _context.SaveChangesAsync();
             return NoContent();
         }

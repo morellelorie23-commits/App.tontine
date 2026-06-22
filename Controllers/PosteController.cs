@@ -27,6 +27,12 @@ namespace tontine.WebAPI.Controllers
         public async Task<ActionResult<PosteModel>> Create(PosteModel poste)
         {
             _context.Postes.Add(poste);
+            _context.Journals.Add(new JournalActiviteModel
+            {
+                Action      = "Nouveau poste",
+                Description = $"Poste \"{poste.LibellePoste}\" créé",
+                Utilisateur = "Système", DateAction = DateTime.Now
+            });
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = poste.IdPoste }, poste);
         }
@@ -36,6 +42,12 @@ namespace tontine.WebAPI.Controllers
         {
             if (id != poste.IdPoste) return BadRequest();
             _context.Entry(poste).State = EntityState.Modified;
+            _context.Journals.Add(new JournalActiviteModel
+            {
+                Action      = "Poste modifié",
+                Description = $"Poste \"{poste.LibellePoste}\" (id={id}) mis à jour",
+                Utilisateur = "Système", DateAction = DateTime.Now
+            });
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -46,6 +58,12 @@ namespace tontine.WebAPI.Controllers
             var p = await _context.Postes.FindAsync(id);
             if (p == null) return NotFound();
             _context.Postes.Remove(p);
+            _context.Journals.Add(new JournalActiviteModel
+            {
+                Action      = "Poste supprimé",
+                Description = $"Poste \"{p.LibellePoste}\" (id={id}) supprimé",
+                Utilisateur = "Système", DateAction = DateTime.Now
+            });
             await _context.SaveChangesAsync();
             return NoContent();
         }
